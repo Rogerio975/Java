@@ -1,4 +1,4 @@
-public class Pessoa {
+public final class Pessoa {
     private int id;
     private String nome;
     private String matricula;
