@@ -1,6 +1,4 @@
-
 public class Aluno {
-
     private String nome;
 
     public void inserirNome(String nome) {
