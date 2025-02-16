@@ -13,7 +13,6 @@ public final class Pessoa {
         setCpf(cpf);
     }
 
-
     public int getId() {
         return id;
     }
