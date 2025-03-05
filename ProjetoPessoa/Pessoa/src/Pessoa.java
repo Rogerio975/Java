@@ -38,7 +38,7 @@ public class Pessoa {
     // Método toString
     @Override
     public String toString() {
-        return "Pessoa{" +
+        return "\nPessoa{" +
                 "nome='" + nome + '\'' +
                 ", genero='" + genero + '\'' +
                 ", idade=" + idade +
