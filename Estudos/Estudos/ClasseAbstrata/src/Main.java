@@ -13,6 +13,14 @@ public class Main {
         meuCachorro.comer();
         meuCachorro.emitirSom();
 
+        // Usando um setter para alterar o nome e o peso do cachorro
+        meuCachorro.setNome("Max");
+        meuCachorro.setPeso(32.1);
+
+        System.out.println("\n--- Dados do Cachorro Após o Petisco ---");
+        System.out.println("Nome: " + meuCachorro.getNome());
+        System.out.println("Peso: " + meuCachorro.getPeso() + " kg");
+
         System.out.println("\n--- Dados do Gato ---");
         System.out.println("Nome: " + meuGato.getNome());
         System.out.println("Raça: " + meuGato.getRaca());

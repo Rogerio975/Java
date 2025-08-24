@@ -37,4 +37,20 @@ public abstract class Animal {
     public double getPeso() {
         return peso;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setRaca(String raca) {
+        this.raca = raca;
+    }
+
+    public void setIdadeAproximada(int idadeAproximada) {
+        this.idadeAproximada = idadeAproximada;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
 }
