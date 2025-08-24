@@ -5,7 +5,7 @@ public class Main {
         Gato meuGato = new Gato("Frajola", "Siamês", 3, 4.2);
 
         // Chamando os métodos e acessando os atributos
-        System.out.println("--- Dados do Cachorro ---");
+        System.out.println("\n--- Dados do Cachorro ---");
         System.out.println("Nome: " + meuCachorro.getNome());
         System.out.println("Raça: " + meuCachorro.getRaca());
         System.out.println("Idade: " + meuCachorro.getIdadeAproximada() + " anos");
