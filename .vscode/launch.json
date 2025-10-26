@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ValidacaoPessoa",
+            "request": "launch",
+            "mainClass": "com.mycompany.validacaopessoa.ValidacaoPessoa",
+            "projectName": "ValidacaoPessoa"
+        },
+        {
+            "type": "java",
             "name": "Saudacao",
             "request": "launch",
             "mainClass": "Saudacao",
