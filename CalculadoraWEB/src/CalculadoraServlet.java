@@ -1,0 +1,26 @@
+package br.com.calculadora;
+
+import java.io.IOException;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class CalculadoraServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        double num1 = Double.parseDouble(request.getParameter("num1"));
+        double num2 = Double.parseDouble(request.getParameter("num2"));
+        String operacao = request.getParameter("operacao");
+        double resultado = 0;
+
+        switch (operacao) {
+            case "soma": resultado = num1 + num2; break;
+            case "subtracao": resultado = num1 - num2; break;
+            case "multiplicacao": resultado = num1 * num2; break;
+            case "divisao": resultado = num1 / num2; break;
+        }
+
+        request.setAttribute("resultado", resultado);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+    }
+}
