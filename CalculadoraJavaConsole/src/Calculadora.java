@@ -8,7 +8,7 @@ public class Calculadora {
         double num1, num2, resultado;
         char operador;
 
-        System.out.println("\n1--- Calculadora Básica em Java (Terminal) ---");
+        System.out.println("\n--- Calculadora Básica em Java (Terminal) ---");
 
         // 1. Receber o primeiro número
         System.out.print("Digite o primeiro número: ");
