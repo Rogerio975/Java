@@ -7,18 +7,19 @@ import java.nio.file.Paths;
 
 public class App {
     public static void main(String[] args) {
-        String html = "<!doctype html>\n"
-                + "<html>\n"
-                + "<head>\n"
-                + "  <meta charset=\"utf-8\">\n"
-                + "  <title>Exemplo Java + HTML</title>\n"
-                + "  <style>body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }</style>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "  <h1>Olá do Java + HTML</h1>\n"
-                + "  <p>Este arquivo HTML foi gerado por <strong>App.java</strong>.</p>\n"
-                + "  <ul>\n"
-                + "    <li>Data de geração: " + java.time.ZonedDateTime.now() + "</li>\n"
+        String html = """
+                      <!doctype html>
+                      <html>
+                      <head>
+                        <meta charset="utf-8">
+                        <title>Exemplo Java + HTML</title>
+                        <style>body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }</style>
+                      </head>
+                      <body>
+                        <h1>Ol\u00e1 do Java + HTML</h1>
+                        <p>Este arquivo HTML foi gerado por <strong>App.java</strong>.</p>
+                        <ul>
+                          <li>Data de gera\u00e7\u00e3o: """ + java.time.ZonedDateTime.now() + "</li>\n"
                 + "  </ul>\n"
                 + "</body>\n"
                 + "</html>\n";
@@ -37,7 +38,6 @@ public class App {
             }
         } catch (IOException e) {
             System.err.println("Erro ao gerar/abrir o arquivo HTML: " + e.getMessage());
-            e.printStackTrace();
             System.exit(1);
         }
     }
