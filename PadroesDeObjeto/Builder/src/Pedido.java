@@ -1,11 +1,11 @@
 public class Pedido {
-    private String lanche;
-    private boolean queijo;
-    private boolean bacon;
-    private boolean alface;
-    private boolean tomate;
-    private boolean cebola;
-    private String bebida;
+    private final String lanche;
+    private final boolean queijo;
+    private final boolean bacon;
+    private final boolean alface;
+    private final boolean tomate;
+    private final boolean cebola;
+    private final String bebida;
 
     // Construtor privado - só pode ser acessado pelo Builder
     private Pedido(PedidoBuilder builder) {
