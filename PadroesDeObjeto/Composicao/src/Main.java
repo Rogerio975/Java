@@ -17,9 +17,25 @@ class Carro {
     }
 }
 
+class Motocicleta {
+    private final Motor motor; // Composição: Motocicleta possui Motor
+
+    public Motocicleta() {
+        this.motor = new Motor(); // Motor criado dentro da Motocicleta
+    }
+
+    public void ligarMotocicleta() {
+        motor.ligar();
+        System.out.println("Motocicleta ligada!");
+    }
+}
+
 public class Main {
     public static void main(String[] args) {
         Carro carro = new Carro();
         carro.ligarCarro();
+        
+        Motocicleta motocicleta = new Motocicleta();
+        motocicleta.ligarMotocicleta();
     }
 }
