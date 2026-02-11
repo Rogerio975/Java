@@ -5,6 +5,8 @@ package decorator;
  */
 public class ComAcucar extends CafeDecorator {
 
+    private static final double CUSTO_ADICIONAL = 0.50;
+
     public ComAcucar(Cafe cafe) {
         super(cafe);
     }
@@ -16,6 +18,6 @@ public class ComAcucar extends CafeDecorator {
 
     @Override
     public double getCusto() {
-        return super.getCusto() + 0.50;
+        return super.getCusto() + CUSTO_ADICIONAL;
     }
 }

@@ -5,6 +5,9 @@ package decorator;
  * serão adicionadas.
  */
 public class CafeSimples implements Cafe {
+
+    private static final double CUSTO_BASE = 5.0;
+
     @Override
     public String getDescricao() {
         return "Café simples";
@@ -12,6 +15,6 @@ public class CafeSimples implements Cafe {
 
     @Override
     public double getCusto() {
-        return 5.0;
+        return CUSTO_BASE;
     }
 }
