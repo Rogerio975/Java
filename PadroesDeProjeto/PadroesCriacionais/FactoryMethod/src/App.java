@@ -8,6 +8,9 @@ public class App {
         // O negócio cresce: agora precisamos entregar por navio
         factory = new NavioFactory();
         factory.enviar("Porto do Rio de Janeiro");
+
+        // Expansão para transporte aéreo
+        factory = new AviaoFactory();
+        factory.enviar("Aeroporto de Brasília");
     }
 }
-
