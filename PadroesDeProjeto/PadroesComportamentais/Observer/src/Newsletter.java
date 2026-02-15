@@ -21,7 +21,8 @@ public class Newsletter {
     }
 
     private void notifySubscribers() {
-        for (Subscriber s : subscribers) {
+        // Itera sobre uma cópia para evitar ConcurrentModificationException se um assinante sair durante o update
+        for (Subscriber s : new ArrayList<>(subscribers)) {
             s.update(latestEdition);
         }
     }
