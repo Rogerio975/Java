@@ -45,7 +45,7 @@ public void setIdade(int idade) {
 }
 
 public void imprimirCliente() {
-    System.out.println("Nome: " + nome);
+    System.out.println("\nNome: " + nome);
     System.out.println("Endereco: " + endereco);
     System.out.println("Telefone: " + telefone);
     System.out.println("Idade: " + idade);
