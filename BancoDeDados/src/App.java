@@ -5,8 +5,8 @@ public class App {
         String host = "localhost";
         int port = 5432;
         String user = "postgres";
-        String password = "postgres";
-        String dbName = "Supermercado";
+        String password = "";
+        String dbName = "Mercado";
 
         if (args.length >= 5) {
             host = args[0];
