@@ -1,0 +1,10 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+    <servlet>
+        <servlet-name>CalculadoraServlet</servlet-name>
+        <servlet-class>br.com.calculadora.CalculadoraServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CalculadoraServlet</servlet-name>
+        <url-pattern>/calcular</url-pattern>
+    </servlet-mapping>
+</web-app>
