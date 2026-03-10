@@ -2,6 +2,7 @@ package escola;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        System.out.println("\n--- Sistema de Estudos ---");
         System.out.println("\nAluno");
         Aluno aluno = new Aluno("João", 20, "12345");
         System.out.println("Nome: " + aluno.getNome());
