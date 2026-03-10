@@ -1,4 +1,4 @@
-package Escola;
+package escola;
 
 public class Professor {
     private String nome;

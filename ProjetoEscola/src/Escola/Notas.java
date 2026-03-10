@@ -1,4 +1,4 @@
-package Escola;
+package escola;
 
 public class Notas {
     private double nota1;
