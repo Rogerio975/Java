@@ -3,20 +3,10 @@ package escola;
 public class Notas {
     private double nota1;
     private double nota2;
-    private Aluno aluno;
 
-    public Notas(Aluno aluno, double nota1, double nota2) {
-        this.aluno = aluno;
+    public Notas(double nota1, double nota2) {
         this.nota1 = nota1;
         this.nota2 = nota2;
-    }
-
-    public Aluno getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
     }
 
     public double getNota1() {

@@ -11,8 +11,8 @@ public class App {
         System.out.println("\nProfessor");
         Professor professor = new Professor("Maria", "Matemática");
         System.out.println("Nome: " + professor.getNome());
-        System.out.println("Disciplina: " + professor.getDisciplina());        
-        Notas notas = new Notas(aluno, 8.5, 7.0);
+        System.out.println("Disciplina: " + professor.getDisciplina());    
+        Notas notas = new Notas(8.5, 7.0);
         System.out.println("\nNotas");
         System.out.println("Nota 1: " + notas.getNota1());
         System.out.println("Nota 2: " + notas.getNota2());
