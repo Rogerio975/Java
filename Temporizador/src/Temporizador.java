@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class TemporizadorJava extends JFrame {
+public class Temporizador extends JFrame {
     private final JLabel labelTempo;
     private final JTextField campoSegundos;
     private final JButton btnIniciar;
@@ -19,7 +19,7 @@ public class TemporizadorJava extends JFrame {
     private final Timer timer;
     private int tempoRestante;
 
-    public TemporizadorJava() {
+    public Temporizador() {
         // Configurações da Janela
         setTitle("Temporizador Java");
         setSize(300, 250);
@@ -93,6 +93,6 @@ public class TemporizadorJava extends JFrame {
 
     public static void main(String[] args) {
         // Garante que a UI rode na thread correta de eventos
-        SwingUtilities.invokeLater(() -> new TemporizadorJava());
+        SwingUtilities.invokeLater(() -> new Temporizador());
     }
 }
