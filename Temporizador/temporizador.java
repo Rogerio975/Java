@@ -2,7 +2,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,18 +43,15 @@ public class temporizador extends JFrame {
         add(btnResetar);
 
         // Lógica do Timer (executa a cada 1000ms)
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (tempoRestante > 0) {
-                    tempoRestante--;
-                    atualizarLabel();
-                } else {
-                    pararTimer();
-                    btnIniciar.setEnabled(true);
-                    tocarAlarme();
-                    JOptionPane.showMessageDialog(null, "O tempo acabou!");
-                }
+        timer = new Timer(1000, (ActionEvent e) -> {
+            if (tempoRestante > 0) {
+                tempoRestante--;
+                atualizarLabel();
+            } else {
+                pararTimer();
+                btnIniciar.setEnabled(true);
+                tocarAlarme();
+                JOptionPane.showMessageDialog(null, "O tempo acabou!");
             }
         });
 
