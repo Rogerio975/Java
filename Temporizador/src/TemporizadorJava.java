@@ -2,6 +2,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,7 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class temporizador extends JFrame {
+public class TemporizadorJava extends JFrame {
     private final JLabel labelTempo;
     private final JTextField campoSegundos;
     private final JButton btnIniciar;
@@ -18,7 +19,7 @@ public class temporizador extends JFrame {
     private final Timer timer;
     private int tempoRestante;
 
-    public temporizador() {
+    public TemporizadorJava() {
         // Configurações da Janela
         setTitle("Temporizador Java");
         setSize(300, 250);
@@ -49,7 +50,6 @@ public class temporizador extends JFrame {
                 atualizarLabel();
             } else {
                 pararTimer();
-                btnIniciar.setEnabled(true);
                 tocarAlarme();
                 JOptionPane.showMessageDialog(null, "O tempo acabou!");
             }
@@ -93,6 +93,6 @@ public class temporizador extends JFrame {
 
     public static void main(String[] args) {
         // Garante que a UI rode na thread correta de eventos
-        SwingUtilities.invokeLater(() -> new temporizador());
+        SwingUtilities.invokeLater(() -> new TemporizadorJava());
     }
 }
