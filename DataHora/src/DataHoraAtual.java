@@ -1,3 +1,6 @@
+// Este programa exibe a data e hora atual formatada no console.
+// É mais moderno e flexível.
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
