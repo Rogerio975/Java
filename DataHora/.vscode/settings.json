@@ -1,8 +1,9 @@
 {
     "java.project.sourcePaths": [
         "src",
+        "Others/Swing",
         "DataHoraAntiga",
-        "Others/Swing"
+        "Others/DataHoraAntiga"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
