@@ -1,4 +1,6 @@
-// Este programa exibe a data e hora atual usando a classe Date, que é considerada antiga e menos flexível.
+/* Este programa exibe a data e hora atual usando a classe Date, 
+que é considerada antiga e menos flexível.
+*/
 
 import java.util.Date;
 

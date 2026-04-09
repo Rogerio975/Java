@@ -1,4 +1,5 @@
-// Este programa cria uma janela com um relógio digital que exibe a data e hora atual, atualizando a cada segundo.
+/*Este programa cria uma janela com um relógio digital que exibe
+a data e hora atual, atualizando a cada segundo.*/
 
 import java.awt.Font;
 import java.time.LocalDateTime;
