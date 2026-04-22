@@ -1,0 +1,14 @@
+### Listar todos os produtos
+GET http://localhost:8080/api/produtos
+
+###
+
+### Cadastrar um novo produto
+POST http://localhost:8080/api/produtos
+Content-Type: application/json
+
+{
+    "nome": "Feijão Carioca 1kg",
+    "preco": 8.90,
+    "estoque": 50
+}

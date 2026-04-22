@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seuprojeto.model.Produto;
-import com.seuprojeto.repository.ProdutoRepository;
+import com.seuprojeto.service.ProdutoService;
 
 @RestController
-@RequestMapping("/api/produtos") // Define a rota base
+@RequestMapping("/api/produtos")
 public class ProdutoController {
 
     @Autowired
-    private ProdutoRepository repository; // Injeção de dependência (o Spring gerencia isso)
+    private ProdutoService service; // Injetando o Service em vez do Repository
 
     @GetMapping
     public List<Produto> listar() {
-        return repository.findAll();
+        return service.listarTodos();
     }
 
     @PostMapping
     public Produto salvar(@RequestBody Produto produto) {
-        return repository.save(produto);
+        return service.salvarProduto(produto);
     }
 }
