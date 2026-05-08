@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Web</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .container{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            width:300px;
+        }
+
+        input, select, button{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+        }
+
+        h1{
+            text-align:center;
+        }
+
+        .resultado{
+            margin-top:20px;
+            font-size:20px;
+            text-align:center;
+            color:green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculadora</h1>
+
+    <form action="/calcular" method="get">
+
+        <input type="number" step="any" name="num1" placeholder="Número 1" required>
+
+        <select name="operacao">
+            <option value="+">Somar</option>
+            <option value="-">Subtrair</option>
+            <option value="*">Multiplicar</option>
+            <option value="/">Dividir</option>
+        </select>
+
+        <input type="number" step="any" name="num2" placeholder="Número 2" required>
+
+        <button type="submit">Calcular</button>
+
+    </form>
+
+    <div class="resultado">
+        Resultado:
+        <span th:text="${resultado}"></span>
+    </div>
+
+</div>
+
+</body>
+</html>
