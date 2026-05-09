@@ -1,6 +1,8 @@
+
 package com.medexam;
 
 import com.medexam.ui.MainWindow;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
