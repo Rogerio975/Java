@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 350, 500);
-        stage.setTitle("Calculadora Científica");
+        stage.setTitle("Calculadora Simples");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

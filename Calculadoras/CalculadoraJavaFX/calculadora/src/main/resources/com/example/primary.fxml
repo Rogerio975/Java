@@ -14,7 +14,7 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <children>
-      <TextField fx:id="display" editable="false" alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="330.0" promptText="0">
+      <TextField fx:id="display" editable="false" alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="330.0" text="0">
          <font>
             <Font size="36.0" />
          </font>
@@ -34,10 +34,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <!-- Row 0: Clear, Scientific functions placeholder -->
             <Button onAction="#handleClear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="C" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Button onAction="#handleScientificFunction" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="sin" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Button onAction="#handleScientificFunction" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="cos" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="" GridPane.columnIndex="2" GridPane.rowIndex="0" />
             <Button onAction="#handleOperator" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="/" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
             <!-- Row 1: 7, 8, 9, * -->

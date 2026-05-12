@@ -16,6 +16,11 @@ public class PrimaryController {
     private boolean startNewNumber = true;
 
     @FXML
+    private void initialize() {
+        display.setText("0");
+    }
+
+    @FXML
     private void handleNumber(ActionEvent event) {
         if (startNewNumber) {
             display.setText("");
@@ -42,23 +47,36 @@ public class PrimaryController {
     @FXML
     private void handleOperator(ActionEvent event) {
         if (!currentNumber.isEmpty()) {
-            firstOperand = Double.parseDouble(currentNumber);
+            if (!operator.isEmpty()) {
+                computeResult();
+            } else {
+                firstOperand = Double.parseDouble(currentNumber);
+            }
         }
         operator = ((Button) event.getSource()).getText();
         startNewNumber = true;
-        currentNumber = ""; // Clear current number for next input
+        currentNumber = "";
     }
 
     @FXML
     private void handleEquals(ActionEvent event) {
         if (operator.isEmpty() || currentNumber.isEmpty()) {
-            return; // Nothing to calculate or incomplete operation
+            return;
         }
+        computeResult();
+    }
 
-        double secondOperand = Double.parseDouble(currentNumber);
-        double result = 0;
+    @FXML
+    private void handleClear(ActionEvent event) {
+        resetCalculatorState();
+        display.setText("0");
+    }
 
+    private void computeResult() {
         try {
+            double secondOperand = Double.parseDouble(currentNumber);
+            double result;
+
             switch (operator) {
                 case "+":
                     result = firstOperand + secondOperand;
@@ -71,29 +89,33 @@ public class PrimaryController {
                     break;
                 case "/":
                     if (secondOperand == 0) {
-                        display.setText("Error: Div by zero");
+                        display.setText("Erro: Divisão por zero");
                         resetCalculatorState();
                         return;
                     }
                     result = firstOperand / secondOperand;
                     break;
-                // Adicione mais operadores aqui para a calculadora científica
+                default:
+                    return;
             }
-            display.setText(String.valueOf(result));
-            firstOperand = result; // Permite encadear operações
+
+            String output = formatResult(result);
+            display.setText(output);
+            firstOperand = result;
+            currentNumber = output;
             operator = "";
-            currentNumber = String.valueOf(result); // Define o número atual como o resultado para futuras operações
-            startNewNumber = true; // A próxima entrada de número deve limpar o display
+            startNewNumber = true;
         } catch (NumberFormatException e) {
-            display.setText("Error");
+            display.setText("Erro");
             resetCalculatorState();
         }
     }
 
-    @FXML
-    private void handleClear(ActionEvent event) {
-        resetCalculatorState();
-        display.setText("0");
+    private String formatResult(double value) {
+        if (value == (long) value) {
+            return String.format("%d", (long) value);
+        }
+        return String.valueOf(value);
     }
 
     private void resetCalculatorState() {
@@ -101,14 +123,5 @@ public class PrimaryController {
         firstOperand = 0;
         operator = "";
         startNewNumber = true;
-    }
-
-    // Placeholder para funções científicas - a ser expandido
-    @FXML
-    private void handleScientificFunction(ActionEvent event) {
-        // Implementação para funções científicas como sin, cos, tan, log, etc.
-        // Isso envolverá analisar o número atual, aplicar a função e atualizar o display.
-        // Exemplo: Math.sin(Math.toRadians(Double.parseDouble(currentNumber)))
-        display.setText("Função Científica (TODO)"); // Placeholder
     }
 }
