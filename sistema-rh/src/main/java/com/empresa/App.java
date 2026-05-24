@@ -10,7 +10,7 @@ public class App {
     static final String URL_PADRAO = "jdbc:postgresql://localhost:5432/postgres";
     static final String URL_EMPRESA = "jdbc:postgresql://localhost:5432/empresa";
     static final String USUARIO = "postgres";
-    static final String SENHA = "sua_senha_aqui"; // Altere para a sua senha
+    static final String SENHA = "1234"; // Altere para a sua senha
 
     public static void main(String[] args) {
         criarBancoDados();
