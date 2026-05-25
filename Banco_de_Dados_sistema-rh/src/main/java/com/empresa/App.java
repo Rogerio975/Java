@@ -2,9 +2,10 @@ package com.empresa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
 
 public class App {
     // Credenciais de acesso ao servidor PostgreSQL
@@ -16,6 +17,7 @@ public class App {
     public static void main(String[] args) {
         criarBancoDados();
         criarTabela();
+        inserirDados();
         exibirTabela();
     }
 
@@ -55,6 +57,38 @@ public class App {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void inserirDados() {
+        try (Connection conn = DriverManager.getConnection(URL_EMPRESA, USUARIO, SENHA);
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO funcionarios (nome, cpf, endereco) VALUES (?, ?, ?)")) {
+
+            // Inserir dados de exemplo
+            String[][] dados = {
+                {"João Silva", "123.456.789-00", "Rua A, 100"},
+                {"Maria Santos", "234.567.890-11", "Rua B, 200"},
+                {"Pedro Oliveira", "345.678.901-22", "Rua C, 300"},
+                {"Ana Costa", "456.789.012-33", "Rua D, 400"},
+                {"Carlos Souza", "567.890.123-44", "Rua E, 500"}
+            };
+
+            for (String[] funcionario : dados) {
+                stmt.setString(1, funcionario[0]);
+                stmt.setString(2, funcionario[1]);
+                stmt.setString(3, funcionario[2]);
+                stmt.executeUpdate();
+            }
+
+            System.out.println("✓ " + dados.length + " funcionários inseridos com sucesso!");
+
+        } catch (SQLException e) {
+            // Ignorar erro se dados já existem (constraint unique no CPF)
+            if (e.getMessage().contains("unique") || e.getMessage().contains("duplicate")) {
+                System.out.println("ℹ Dados já existem na tabela.");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 
