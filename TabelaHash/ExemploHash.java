@@ -9,6 +9,7 @@ public class ExemploHash {
         estoque.put("Arroz", 50);
         estoque.put("Feijão", 30);
         estoque.put("Macarrão", 20);
+        estoque.put("Farinha de Trigo", 80);
 
         // 3. Buscando um valor pela chave - Tempo O(1)
         if (estoque.containsKey("Feijão")) {
