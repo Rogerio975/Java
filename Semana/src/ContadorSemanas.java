@@ -5,6 +5,11 @@ import java.util.Locale;
 
 public class ContadorSemanas {
 
+    /**
+     * @param ano
+     * @param mes
+     * @return
+     */
     public static int getSemanasNoMes(int ano, int mes) {
         YearMonth yearMonth = YearMonth.of(ano, mes);
         
