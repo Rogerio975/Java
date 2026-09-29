@@ -11,7 +11,7 @@ public class HomeController {
     public String home(Model model) {
         // Envia dados do Java para a página HTML
         model.addAttribute("mensagem", "Bem-vindo ao meu site feito em Java!");
-        model.addAttribute("usuario", "Rogério");
+        model.addAttribute("usuario", "Desenvolvedor Java");
         
         // Retorna o nome do arquivo HTML (sem a extensão .html)
         return "index"; 
