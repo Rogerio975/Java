@@ -30,7 +30,8 @@
         <!-- O Thymeleaf substitui o conteúdo das tags pelos valores vindos do Java -->
         <h1 th:text="${mensagem}">Título Padrão</h1>
         <p>Olá, <span th:text="${usuario}">Visitante</span>! Esta página foi renderizada pelo servidor Java.</p>
-        <p>Ano: <span th:text="${ano}">2026</span></p>
+        <p>Data: <span th:text="${data}">01/01/2026</span></p>
+        <p>Horário: <span th:text="${horario}">00:00:00</span></p>
     </div>
 </body>
 </html>
