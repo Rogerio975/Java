@@ -51,7 +51,7 @@ public class ExamesPanel extends VBox {
         // Tabela
         dados = FXCollections.observableArrayList(service.listarExames());
         tabela = new TableView<>(dados);
-        tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tabela.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         VBox.setVgrow(tabela, Priority.ALWAYS);
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -151,7 +151,10 @@ public class ExamesPanel extends VBox {
             }
         });
 
-        tabela.getColumns().addAll(colPaciente, colTipo, colData, colMedico, colStatus, colAcoes);
+        @SuppressWarnings({"unchecked", "unused"})
+        var _unused = tabela.getColumns().addAll(
+            colPaciente, colTipo, colData, colMedico, colStatus, colAcoes
+        );
 
         VBox tableCard = new VBox(tabela);
         tableCard.getStyleClass().add("form-card");
