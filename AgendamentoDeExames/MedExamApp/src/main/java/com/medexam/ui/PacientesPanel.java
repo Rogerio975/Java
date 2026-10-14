@@ -51,7 +51,7 @@ public class PacientesPanel extends VBox {
         // Tabela
         dados = FXCollections.observableArrayList(service.listarPacientes());
         tabela = new TableView<>(dados);
-        tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tabela.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         VBox.setVgrow(tabela, Priority.ALWAYS);
 
         TableColumn<Paciente, String> colNome  = new TableColumn<>("Nome");
@@ -98,7 +98,10 @@ public class PacientesPanel extends VBox {
             }
         });
 
-        tabela.getColumns().addAll(colNome, colCpf, colNasc, colTel, colEmail, colAcoes);
+        @SuppressWarnings({"unchecked", "unused"})
+        var _unused = tabela.getColumns().addAll(
+            colNome, colCpf, colNasc, colTel, colEmail, colAcoes
+        );
 
         VBox tableCard = new VBox(tabela);
         tableCard.getStyleClass().add("form-card");
