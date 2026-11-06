@@ -29,6 +29,8 @@ public class ClienteCRUD {
         Path arquivo = Path.of(args.length > 0 ? args[0] : "clientes.csv");
         ClienteRepository repositorio = new ArquivoClienteRepository(arquivo);
         ClienteService servico = new ClienteService(repositorio);
+        System.out.println("Arquivo de dados: " + arquivo.toAbsolutePath()
+                + " (" + servico.listar().size() + " cliente(s) carregado(s))");
         new Menu(servico).executar();
     }
 }
