@@ -64,7 +64,7 @@ record Cliente(int id, String nome, String cpf, String email, String telefone) {
         return new Cliente(novoId, nome, cpf, email, telefone);
     }
 
-    String cpfFormatado() { // XXX.XXX.XXX-XX
+    String cpfFormatado() { // Formato: 000.000.000-00
         return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "."
                 + cpf.substring(6, 9) + "-" + cpf.substring(9);
     }
