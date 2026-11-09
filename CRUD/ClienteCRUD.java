@@ -64,14 +64,14 @@ record Cliente(int id, String nome, String cpf, String email, String telefone) {
         return new Cliente(novoId, nome, cpf, email, telefone);
     }
 
-    String cpfFormatado() {
+    String cpfFormatado() { // XXX.XXX.XXX-XX
         return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "."
                 + cpf.substring(6, 9) + "-" + cpf.substring(9);
     }
 
     String telefoneFormatado() {
         int ddd = 2;
-        int meio = telefone.length() == 11 ? 7 : 6;
+        int meio = telefone.length() == 11 ? 7 : 6; // 9 dígitos: (XX) XXXXX-XXXX, 8 dígitos: (XX) XXXX-XXXX
         return "(" + telefone.substring(0, ddd) + ") "
                 + telefone.substring(ddd, meio) + "-" + telefone.substring(meio);
     }
@@ -99,7 +99,7 @@ class ClienteNaoEncontradoException extends RuntimeException {
 
 final class Validador {
 
-    private static final Pattern EMAIL = Pattern.compile("^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$");
+    private static final Pattern EMAIL = Pattern.compile("^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$"); // Simplificado, mas suficiente para este exemplo
 
     private Validador() {
     }
