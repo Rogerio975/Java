@@ -9,12 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 /**
- * CRUD de clientes (cadastrar, listar, buscar, atualizar e apagar).
+ * CRUD gráfico de clientes com Swing (cadastrar, listar, buscar, atualizar e apagar).
  *
  * Requer Java 17+. Sem dependências externas.
  *
@@ -29,9 +43,7 @@ public class ClienteCRUD {
         Path arquivo = Path.of(args.length > 0 ? args[0] : "clientes.csv");
         ClienteRepository repositorio = new ArquivoClienteRepository(arquivo);
         ClienteService servico = new ClienteService(repositorio);
-        System.out.println("Arquivo de dados: " + arquivo.toAbsolutePath()
-                + " (" + servico.listar().size() + " cliente(s) carregado(s))");
-        new Menu(servico).executar();
+        SwingUtilities.invokeLater(() -> new ClienteGUI(servico, arquivo).setVisible(true));
     }
 }
 
@@ -315,130 +327,191 @@ class ClienteService {
 }
 
 /* ======================================================================
- * Interface de console
+ * Interface gráfica
  * ====================================================================== */
 
-class Menu {
+class ClienteGUI extends JFrame {
 
     private final ClienteService servico;
-    private final Scanner entrada = new Scanner(System.in, StandardCharsets.UTF_8);
-
-    Menu(ClienteService servico) {
-        this.servico = servico;
-    }
-
-    void executar() {
-        while (true) {
-            System.out.println("""
-
-                    ===== CADASTRO DE CLIENTES =====
-                    1 - Cadastrar
-                    2 - Listar
-                    3 - Buscar por ID
-                    4 - Atualizar
-                    5 - Apagar
-                    0 - Sair
-                    """);
-            String opcao = ler("Opção");
-            if (opcao == null) {
-                return;
-            }
-            try {
-                switch (opcao) {
-                    case "1" -> cadastrar();
-                    case "2" -> listar();
-                    case "3" -> buscar();
-                    case "4" -> atualizar();
-                    case "5" -> apagar();
-                    case "0" -> {
-                        System.out.println("Até logo!");
-                        return;
-                    }
-                    default -> System.out.println("Opção inválida.");
-                }
-            } catch (ValidacaoException | ClienteNaoEncontradoException e) {
-                System.out.println("Erro: " + e.getMessage());
-            } catch (UncheckedIOException | IllegalStateException e) {
-                System.out.println("Erro de armazenamento: " + e.getMessage());
-            }
+    private final JTextField nome = new JTextField();
+    private final JTextField cpf = new JTextField();
+    private final JTextField email = new JTextField();
+    private final JTextField telefone = new JTextField();
+    private final JTextField buscaId = new JTextField(8);
+    private final DefaultTableModel modelo = new DefaultTableModel(
+            new Object[]{"ID", "Nome", "CPF", "E-mail", "Telefone"}, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
         }
+    };
+    private final JTable tabela = new JTable(modelo);
+    private final JLabel status = new JLabel(" ");
+
+    ClienteGUI(ClienteService servico, Path arquivo) {
+        super("Cadastro de clientes");
+        this.servico = servico;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 520);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+
+        JPanel formulario = new JPanel(new GridLayout(2, 4, 8, 4));
+        formulario.setBorder(BorderFactory.createTitledBorder("Dados do cliente"));
+        formulario.add(new JLabel("Nome"));
+        formulario.add(new JLabel("CPF"));
+        formulario.add(new JLabel("E-mail"));
+        formulario.add(new JLabel("Telefone (com DDD)"));
+        formulario.add(nome);
+        formulario.add(cpf);
+        formulario.add(email);
+        formulario.add(telefone);
+        add(formulario, BorderLayout.NORTH);
+
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tabela.setAutoCreateRowSorter(true);
+        tabela.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) {
+                preencherFormularioSelecionado();
+            }
+        });
+        add(new JScrollPane(tabela), BorderLayout.CENTER);
+
+        JButton cadastrar = new JButton("Cadastrar");
+        cadastrar.addActionListener(event -> executarComTratamento(this::cadastrar));
+        JButton atualizar = new JButton("Atualizar selecionado");
+        atualizar.addActionListener(event -> executarComTratamento(this::atualizar));
+        JButton apagar = new JButton("Apagar selecionado");
+        apagar.addActionListener(event -> executarComTratamento(this::apagar));
+        JButton limpar = new JButton("Limpar campos");
+        limpar.addActionListener(event -> limparFormulario());
+
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        botoes.add(cadastrar);
+        botoes.add(atualizar);
+        botoes.add(apagar);
+        botoes.add(limpar);
+
+        JButton buscar = new JButton("Buscar por ID");
+        buscar.addActionListener(event -> executarComTratamento(this::buscar));
+        JButton listar = new JButton("Mostrar todos");
+        listar.addActionListener(event -> executarComTratamento(this::atualizarTabela));
+        JPanel busca = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        busca.add(new JLabel("ID:"));
+        busca.add(buscaId);
+        busca.add(buscar);
+        busca.add(listar);
+
+        JPanel rodape = new JPanel(new BorderLayout());
+        rodape.add(botoes, BorderLayout.WEST);
+        rodape.add(busca, BorderLayout.EAST);
+        rodape.add(status, BorderLayout.SOUTH);
+        add(rodape, BorderLayout.SOUTH);
+
+        status.setText("Dados: " + arquivo.toAbsolutePath());
+        executarComTratamento(this::atualizarTabela);
     }
 
     private void cadastrar() {
-        String nome = ler("Nome");
-        String cpf = ler("CPF");
-        String email = ler("E-mail");
-        String telefone = ler("Telefone (com DDD)");
-        Cliente c = servico.cadastrar(nome, cpf, email, telefone);
-        System.out.println("Cliente cadastrado com ID " + c.id() + ".");
-    }
-
-    private void listar() {
-        List<Cliente> lista = servico.listar();
-        if (lista.isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado.");
-            return;
-        }
-        System.out.printf("%-5s %-30s %-15s %-30s %-16s%n", "ID", "NOME", "CPF", "E-MAIL", "TELEFONE");
-        lista.forEach(this::imprimirLinha);
-    }
-
-    private void buscar() {
-        Cliente c = servico.buscar(lerId());
-        System.out.println("ID:       " + c.id());
-        System.out.println("Nome:     " + c.nome());
-        System.out.println("CPF:      " + c.cpfFormatado());
-        System.out.println("E-mail:   " + c.email());
-        System.out.println("Telefone: " + c.telefoneFormatado());
+        Cliente cliente = servico.cadastrar(
+                nome.getText(), cpf.getText(), email.getText(), telefone.getText());
+        atualizarTabela();
+        limparFormulario();
+        status.setText("Cliente cadastrado com ID " + cliente.id() + ".");
     }
 
     private void atualizar() {
-        Cliente atual = servico.buscar(lerId());
-        System.out.println("Deixe em branco para manter o valor atual.");
-        String nome = lerOuManter("Nome", atual.nome());
-        String cpf = lerOuManter("CPF", atual.cpf());
-        String email = lerOuManter("E-mail", atual.email());
-        String telefone = lerOuManter("Telefone", atual.telefone());
-        servico.atualizar(atual.id(), nome, cpf, email, telefone);
-        System.out.println("Cliente atualizado.");
+        Cliente selecionado = clienteSelecionado();
+        servico.atualizar(selecionado.id(), nome.getText(), cpf.getText(),
+                email.getText(), telefone.getText());
+        atualizarTabela();
+        status.setText("Cliente atualizado.");
     }
 
     private void apagar() {
-        Cliente c = servico.buscar(lerId());
-        String confirma = ler("Apagar \"" + c.nome() + "\"? (s/N)");
-        if (confirma != null && confirma.equalsIgnoreCase("s")) {
-            servico.apagar(c.id());
-            System.out.println("Cliente apagado.");
-        } else {
-            System.out.println("Operação cancelada.");
+        Cliente selecionado = clienteSelecionado();
+        int resposta = JOptionPane.showConfirmDialog(this,
+                "Apagar o cliente \"" + selecionado.nome() + "\"?",
+                "Confirmar exclusão", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (resposta == JOptionPane.YES_OPTION) {
+            servico.apagar(selecionado.id());
+            atualizarTabela();
+            limparFormulario();
+            status.setText("Cliente apagado.");
         }
     }
 
-    private void imprimirLinha(Cliente c) {
-        System.out.printf("%-5d %-30s %-15s %-30s %-16s%n",
-                c.id(), cortar(c.nome(), 30), c.cpfFormatado(), cortar(c.email(), 30), c.telefoneFormatado());
+    private void buscar() {
+        int id = lerId(buscaId.getText());
+        Cliente cliente = servico.buscar(id);
+        atualizarTabela(List.of(cliente));
+        tabela.setRowSelectionInterval(0, 0);
+        status.setText("Cliente com ID " + id + " encontrado.");
     }
 
-    private int lerId() {
-        String texto = ler("ID do cliente");
+    private Cliente clienteSelecionado() {
+        int linha = tabela.getSelectedRow();
+        if (linha < 0) {
+            throw new ValidacaoException("Selecione um cliente na tabela.");
+        }
+        int linhaModelo = tabela.convertRowIndexToModel(linha);
+        return servico.buscar((int) modelo.getValueAt(linhaModelo, 0));
+    }
+
+    private void preencherFormularioSelecionado() {
+        int linha = tabela.getSelectedRow();
+        if (linha < 0) {
+            return;
+        }
+        int linhaModelo = tabela.convertRowIndexToModel(linha);
+        Cliente cliente = servico.buscar((int) modelo.getValueAt(linhaModelo, 0));
+        nome.setText(cliente.nome());
+        cpf.setText(cliente.cpfFormatado());
+        email.setText(cliente.email());
+        telefone.setText(cliente.telefoneFormatado());
+    }
+
+    private void atualizarTabela() {
+        atualizarTabela(servico.listar());
+    }
+
+    private void atualizarTabela(List<Cliente> clientes) {
+        modelo.setRowCount(0);
+        for (Cliente cliente : clientes) {
+            modelo.addRow(new Object[]{cliente.id(), cliente.nome(), cliente.cpfFormatado(),
+                    cliente.email(), cliente.telefoneFormatado()});
+        }
+    }
+
+    private void limparFormulario() {
+        tabela.clearSelection();
+        nome.setText("");
+        cpf.setText("");
+        email.setText("");
+        telefone.setText("");
+    }
+
+    private static int lerId(String texto) {
         try {
-            return Integer.parseInt(texto == null ? "" : texto.trim());
+            int id = Integer.parseInt(texto == null ? "" : texto.trim());
+            if (id < 1) {
+                throw new NumberFormatException();
+            }
+            return id;
         } catch (NumberFormatException e) {
-            throw new ValidacaoException("ID inválido.");
+            throw new ValidacaoException("Informe um ID válido.");
         }
     }
 
-    private String lerOuManter(String rotulo, String atual) {
-        String valor = ler(rotulo + " [" + atual + "]");
-        return valor == null || valor.isBlank() ? atual : valor;
-    }
-
-    private String ler(String rotulo) {
-        System.out.print(rotulo + ": ");
-        return entrada.hasNextLine() ? entrada.nextLine() : null;
-    }
-
-    private static String cortar(String texto, int max) {
-        return texto.length() <= max ? texto : texto.substring(0, max - 1) + "…";
+    private void executarComTratamento(Runnable operacao) {
+        try {
+            operacao.run();
+        } catch (ValidacaoException | ClienteNaoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Verifique os dados",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (UncheckedIOException | IllegalStateException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de armazenamento",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
