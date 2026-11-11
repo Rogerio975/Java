@@ -28,7 +28,7 @@ public class App {
     private static void criarTabelaClientes(Connection connection) throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS clientes ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "nome TEXT NOT NULL, "
+                + "nome TEXT NOT NULL UNIQUE, "
                 + "saldo REAL NOT NULL DEFAULT 0)";
 
         try (Statement statement = connection.createStatement()) {
@@ -37,12 +37,16 @@ public class App {
     }
 
     private static void inserirCliente(Connection connection, String nome, double saldo) throws SQLException {
-        String sql = "INSERT INTO clientes (nome, saldo) VALUES (?, ?)";
+        String sql = "INSERT OR IGNORE INTO clientes (nome, saldo) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nome);
             statement.setDouble(2, saldo);
-            statement.executeUpdate();
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas == 0) {
+                System.out.println("Cliente ja cadastrado: " + nome);
+            }
         }
     }
 
