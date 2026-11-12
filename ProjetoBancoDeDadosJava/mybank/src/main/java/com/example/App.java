@@ -25,18 +25,22 @@ public class App {
         }
     }
 
-    private static void criarTabelaClientes(Connection connection) throws SQLException {
+    static void criarTabelaClientes(Connection connection) throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS clientes ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "nome TEXT NOT NULL UNIQUE, "
+                + "nome TEXT NOT NULL, "
                 + "saldo REAL NOT NULL DEFAULT 0)";
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
+            statement.executeUpdate("DELETE FROM clientes WHERE id NOT IN ("
+                    + "SELECT MIN(id) FROM clientes GROUP BY nome, saldo)");
+            statement.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS idx_clientes_nome "
+                    + "ON clientes (nome)");
         }
     }
 
-    private static void inserirCliente(Connection connection, String nome, double saldo) throws SQLException {
+    static void inserirCliente(Connection connection, String nome, double saldo) throws SQLException {
         String sql = "INSERT OR IGNORE INTO clientes (nome, saldo) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
