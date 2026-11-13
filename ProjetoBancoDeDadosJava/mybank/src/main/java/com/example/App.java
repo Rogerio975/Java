@@ -146,6 +146,14 @@ public class App {
             statement.executeUpdate(sql);
             statement.executeUpdate("DELETE FROM clientes WHERE id NOT IN ("
                     + "SELECT MIN(id) FROM clientes GROUP BY nome, saldo)");
+            int sequenciasAtualizadas = statement.executeUpdate(
+                    "UPDATE sqlite_sequence SET seq = "
+                            + "(SELECT COALESCE(MAX(id), 0) FROM clientes) "
+                            + "WHERE name = 'clientes'");
+            if (sequenciasAtualizadas == 0) {
+                statement.executeUpdate("INSERT INTO sqlite_sequence (name, seq) "
+                        + "SELECT 'clientes', COALESCE(MAX(id), 0) FROM clientes");
+            }
             statement.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS idx_clientes_nome "
                     + "ON clientes (nome)");
         }

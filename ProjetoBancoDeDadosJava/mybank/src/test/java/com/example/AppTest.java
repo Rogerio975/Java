@@ -40,6 +40,14 @@ public class AppTest {
                 resultSet.next();
                 assertEquals(2, resultSet.getInt(1));
             }
+
+            statement.executeUpdate("DELETE FROM clientes WHERE id = 10");
+            App.criarTabelaClientes(connection);
+            try (ResultSet resultSet = statement.executeQuery(
+                    "SELECT seq FROM sqlite_sequence WHERE name = 'clientes'")) {
+                resultSet.next();
+                assertEquals(2, resultSet.getLong(1));
+            }
         }
     }
 
