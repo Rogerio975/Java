@@ -1,6 +1,8 @@
 package com.example;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,6 +40,27 @@ public class AppTest {
                 resultSet.next();
                 assertEquals(2, resultSet.getInt(1));
             }
+        }
+    }
+
+    @Test
+    public void updatesAndDeletesClientsById() throws SQLException {
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite::memory:")) {
+            App.criarTabelaClientes(connection);
+            App.inserirCliente(connection, "Ana Souza", 2500.00);
+
+            assertTrue(App.atualizarCliente(connection, 1, "Ana Silva", 3000.00));
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(
+                         "SELECT nome, saldo FROM clientes WHERE id = 1")) {
+                resultSet.next();
+                assertEquals("Ana Silva", resultSet.getString("nome"));
+                assertEquals(3000.00, resultSet.getDouble("saldo"), 0.001);
+            }
+
+            assertFalse(App.atualizarCliente(connection, 99, "Cliente inexistente", 0.00));
+            assertTrue(App.excluirCliente(connection, 1));
+            assertFalse(App.excluirCliente(connection, 1));
         }
     }
 }
